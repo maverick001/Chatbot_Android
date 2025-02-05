@@ -17,10 +17,14 @@ class ChatViewModel : ViewModel() {
             text = message,
             isUser = true
         )
+        
+        _chatMessages.value = _chatMessages.value + ChatMessage(
+            text = "",
+            isUser = false
+        )
+
         viewModelScope.launch {
-            api.streamResponse(
-                prompt = message
-            ).collect { response ->
+            api.streamResponse(message).collect { response ->
                 updateLastBotResponse(response)
             }
         }
@@ -36,8 +40,7 @@ class ChatViewModel : ViewModel() {
     private fun updateLastBotResponse(newText: String) {
         _chatMessages.value = _chatMessages.value.toMutableList().apply {
             if (isNotEmpty() && last().isUser.not()) {
-                removeLast()
-                add(last().copy(text = last().text + newText))
+                set(lastIndex, last().copy(text = last().text + newText))
             }
         }
     }

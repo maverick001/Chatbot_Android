@@ -19,6 +19,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.chatbot3.ui.theme.ChatBot3Theme
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.text.input.ImeAction
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,6 +68,13 @@ fun ChatScreen(viewModel: ChatViewModel) {
             TextField(
                 value = userInput,
                 onValueChange = { userInput = it },
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
+                keyboardActions = KeyboardActions(
+                    onSend = {
+                        viewModel.addUserMessage(userInput)
+                        userInput = ""
+                    }
+                ),
                 modifier = Modifier.weight(1f),
                 placeholder = { Text("Type your message...", color = Color.Black.copy(alpha = 0.6f)) },
                 colors = TextFieldDefaults.colors(

@@ -25,7 +25,11 @@ data class TogetherAIRequest(
 )
 
 data class Choice(
-    val text: String
+    val message: Message
+)
+
+data class Message(
+    val content: String
 )
 
 data class Response(
@@ -52,11 +56,11 @@ class TogetherAIDataSource {
         val response = api.generateResponse(
             apiKey = "Bearer ${BuildConfig.TOGETHER_AI_API_KEY}",
             request = TogetherAIRequest(
-                model = "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo-128K",
+                model = "meta-llama/Llama-3-8b-chat-hf",
                 prompt = prompt,
                 stream_tokens = false
             )
         )
-        emit(response.choices.first().text)
+        emit(response.choices.first().message.content)
     }
 } 
