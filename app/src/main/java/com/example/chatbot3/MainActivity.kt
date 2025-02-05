@@ -43,10 +43,10 @@ fun ChatScreen(viewModel: ChatViewModel) {
             .fillMaxSize()
             .background(Color(0xFFE3F2FD)) // Light blue background
     ) {
-        // Chat History (Top 2/3)
+        // Chat History (reduced height)
         LazyColumn(
             modifier = Modifier
-                .weight(2f)
+                .weight(1f)
                 .padding(8.dp)
         ) {
             items(chatMessages) { message ->
@@ -54,10 +54,11 @@ fun ChatScreen(viewModel: ChatViewModel) {
             }
         }
 
-        // Input Area (Bottom 1/3)
+        // Input Area (increased height)
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .weight(2f)
                 .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -65,10 +66,12 @@ fun ChatScreen(viewModel: ChatViewModel) {
                 value = userInput,
                 onValueChange = { userInput = it },
                 modifier = Modifier.weight(1f),
-                placeholder = { Text("Type your message...") },
+                placeholder = { Text("Type your message...", color = Color.Black.copy(alpha = 0.6f)) },
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White
+                    unfocusedContainerColor = Color.White,
+                    focusedTextColor = Color.Black,
+                    unfocusedTextColor = Color.Black
                 )
             )
             
@@ -81,7 +84,7 @@ fun ChatScreen(viewModel: ChatViewModel) {
                     userInput = ""
                 }
             ) {
-                Text("Send")
+                Text("Send", color = Color.White)
             }
         }
     }
@@ -106,7 +109,7 @@ fun ChatBubble(message: ChatMessage) {
                 modifier = Modifier.padding(16.dp),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Normal,
-                color = if (message.isUser) Color.White else Color.Black
+                color = Color.Black
             )
         }
     }
