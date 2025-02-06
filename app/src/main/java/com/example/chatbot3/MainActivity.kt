@@ -22,6 +22,8 @@ import com.example.chatbot3.ui.theme.ChatBot3Theme
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.text.input.ImeAction
+import com.example.chatbot3.ChatViewModelFactory
+import com.example.chatbot3.TogetherAIDataSource
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +31,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ChatBot3Theme {
-                val viewModel: ChatViewModel = viewModel()
+                val viewModel: ChatViewModel = viewModel(
+                    factory = ChatViewModelFactory(
+                        TogetherAIDataSource()
+                    )
+                )
                 ChatScreen(viewModel)
             }
         }

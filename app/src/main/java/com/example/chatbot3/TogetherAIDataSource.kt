@@ -1,3 +1,5 @@
+package com.example.chatbot3
+
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okhttp3.*
@@ -9,6 +11,7 @@ import retrofit2.http.POST
 import com.example.chatbot3.BuildConfig
 import okhttp3.logging.HttpLoggingInterceptor
 import com.google.gson.Gson
+import java.util.concurrent.TimeUnit
 
 interface TogetherAIApi {
     @POST("chat/completions")
@@ -43,6 +46,9 @@ class TogetherAIDataSource {
         Retrofit.Builder()
             .baseUrl("https://api.together.xyz/v1/")
             .client(OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
                 .addInterceptor(HttpLoggingInterceptor().apply {
                     level = HttpLoggingInterceptor.Level.BODY
                 })
