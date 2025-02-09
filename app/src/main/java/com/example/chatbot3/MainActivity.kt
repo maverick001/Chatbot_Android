@@ -24,6 +24,10 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.text.input.ImeAction
 import com.example.chatbot3.ChatViewModelFactory
 import com.example.chatbot3.TogetherAIDataSource
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material3.Scaffold
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,21 +40,32 @@ class MainActivity : ComponentActivity() {
                         TogetherAIDataSource()
                     )
                 )
-                ChatScreen(viewModel)
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                ) { paddingValues ->
+                    ChatScreen(
+                        viewModel = viewModel,
+                        modifier = Modifier.padding(paddingValues)
+                    )
+                }
             }
         }
     }
 }
 
 @Composable
-fun ChatScreen(viewModel: ChatViewModel) {
+fun ChatScreen(
+    viewModel: ChatViewModel,
+    modifier: Modifier = Modifier
+) {
     var userInput by remember { mutableStateOf("") }
     val chatMessages by viewModel.chatMessages.collectAsState()
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(Color(0xFFE3F2FD)) // Light blue background
+            .windowInsetsPadding(WindowInsets.navigationBars)
     ) {
         // Chat History
         LazyColumn(
