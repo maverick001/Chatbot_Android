@@ -1,6 +1,6 @@
 # Chatting Android App
 
-A proof-of-concept Android app that uses tuned "llama3.2-3B-instruct" model for multi-turn streaming conversation via API server. APK file attached (verified on Galaxy S23/Andrioid 14)
+A proof-of-concept Android app that uses tuned "llama3.2-3B-instruct" model for multi-turn streaming conversation via API server. APK file attached (verified on Galaxy S23/API Level 14)
 
 ![App Screenshot](./screenshot.jpg)
 
@@ -8,9 +8,9 @@ A proof-of-concept Android app that uses tuned "llama3.2-3B-instruct" model for 
 
 ## Features
 
-- 🚀 Real-time streaming AI responses
-- 💬 Clean Material Design 3 UI
-- 📜 Scrollable chat history
+- 🚀 Real-time streaming output
+- 💬 Multi-turn conversation support
+- 📜 Scrollable chat history display
 - 🎨 Customizable message bubbles
 - 🧹 One-tap chat history clearing
 - 🌓 Responsive layout for all screen sizes
