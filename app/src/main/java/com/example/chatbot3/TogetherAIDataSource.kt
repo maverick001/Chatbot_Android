@@ -85,12 +85,20 @@ class TogetherAIDataSource {
     }
 
     fun streamResponse(prompt: String): Flow<String> = flow {
+        // Add system prompt to user's prompt
+        val systemPrompt = """You are a helpful AI assistant. Keep your responses clear and concise, always within 150 tokens. 
+            |Avoid repetition and unnecessary details. Focus on providing direct, informative answers.
+            |
+            |User: """.trimMargin()
+        
+        val fullPrompt = systemPrompt + prompt
+
         val response = api.generateResponse(
             apiKey = "Bearer ${BuildConfig.TOGETHER_AI_API_KEY}",
             request = TogetherAIRequest(
                 model = "meta-llama/Meta-Llama-3-8B-Instruct-Lite",
-                prompt = prompt,
-                max_tokens = 100
+                prompt = fullPrompt,
+                max_tokens = 150  // Keep this as a hard limit
             )
         )
         
