@@ -85,7 +85,9 @@ fun ChatScreen(viewModel: ChatViewModel) {
                     onValueChange = { userInput = it },
                     modifier = Modifier
                         .weight(1f)
-                        .height(128.dp), // Doubled height from 44dp to 128dp
+                        .width(IntrinsicSize.Max)
+                        .padding(end = 10.dp)
+                        .height(128.dp),
                     placeholder = { Text("Type your message...") },
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = Color.Transparent,
@@ -119,17 +121,17 @@ fun ChatScreen(viewModel: ChatViewModel) {
                             }
                         },
                         modifier = Modifier
-                            .height(60.dp)
-                            .width(72.dp),
+                            .height(57.dp)
+                            .width(82.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFFD0E1FF) // Light blue #d0e1ff
+                            containerColor = Color(0xFFD0E1FF)
                         ),
                         shape = RoundedCornerShape(22.dp),
                         contentPadding = PaddingValues(0.dp)
                     ) {
                         Text(
                             "Send",
-                            color = Color(0xFF1A1A7A), // Dark blue #1a1a7a
+                            color = Color(0xFF1A1A7A),
                             fontSize = 14.sp,
                             fontFamily = androidx.compose.ui.text.font.FontFamily.SansSerif
                         )
@@ -139,17 +141,17 @@ fun ChatScreen(viewModel: ChatViewModel) {
                     Button(
                         onClick = { userInput = "" },
                         modifier = Modifier
-                            .height(60.dp)
-                            .width(72.dp),
+                            .height(57.dp)
+                            .width(82.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFFD0E1FF) // Light blue #d0e1ff
+                            containerColor = Color(0xFFD0E1FF)
                         ),
                         shape = RoundedCornerShape(22.dp),
                         contentPadding = PaddingValues(0.dp)
                     ) {
                         Text(
                             "Clear",
-                            color = Color(0xFF1A1A7A), // Dark blue #1a1a7a
+                            color = Color(0xFF1A1A7A),
                             fontSize = 14.sp,
                             fontFamily = androidx.compose.ui.text.font.FontFamily.SansSerif
                         )
