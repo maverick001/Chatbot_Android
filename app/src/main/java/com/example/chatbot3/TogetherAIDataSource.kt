@@ -1,7 +1,9 @@
 package com.example.chatbot3
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import okhttp3.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -12,19 +14,34 @@ import com.example.chatbot3.BuildConfig
 import okhttp3.logging.HttpLoggingInterceptor
 import com.google.gson.Gson
 import java.util.concurrent.TimeUnit
+import retrofit2.http.Streaming
+import okhttp3.ResponseBody
+import retrofit2.Response
 
 interface TogetherAIApi {
     @POST("chat/completions")
     suspend fun generateResponse(
         @Header("Authorization") apiKey: String,
         @Body request: TogetherAIRequest
-    ): Response
+    ): Response<ChatResponse>
+
+    @Streaming
+    @POST("chat/completions")
+    suspend fun generateStreamingResponse(
+        @Header("Authorization") apiKey: String,
+        @Body request: TogetherAIRequest
+    ): Response<ResponseBody>
 }
+
+data class ChatResponse(
+    val choices: List<Choice>
+)
 
 data class TogetherAIRequest(
     val model: String,
     val prompt: String,
-    val stream_tokens: Boolean = false
+    val stream_tokens: Boolean = false,
+    val max_tokens: Int = 100
 )
 
 data class Choice(
@@ -41,14 +58,23 @@ data class Response(
     val model: String
 )
 
+data class StreamResponse(
+    val choices: List<StreamChoice>
+)
+
+data class StreamChoice(
+    val delta: Delta
+)
+
+data class Delta(
+    val content: String
+)
+
 class TogetherAIDataSource {
     private val api: TogetherAIApi by lazy {
         Retrofit.Builder()
             .baseUrl("https://api.together.xyz/v1/")
             .client(OkHttpClient.Builder()
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .readTimeout(60, TimeUnit.SECONDS)
-                .writeTimeout(60, TimeUnit.SECONDS)
                 .addInterceptor(HttpLoggingInterceptor().apply {
                     level = HttpLoggingInterceptor.Level.BODY
                 })
@@ -64,9 +90,12 @@ class TogetherAIDataSource {
             request = TogetherAIRequest(
                 model = "meta-llama/Meta-Llama-3-8B-Instruct-Lite",
                 prompt = prompt,
-                stream_tokens = false
+                max_tokens = 100
             )
         )
-        emit(response.choices.first().message.content)
-    }
+        
+        response.body()?.let { chatResponse ->
+            emit(chatResponse.choices.first().message.content)
+        }
+    }.flowOn(Dispatchers.IO)
 } 
