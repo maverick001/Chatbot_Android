@@ -65,7 +65,6 @@ fun ChatScreen(
         modifier = modifier
             .fillMaxSize()
             .background(Color(0xFFE3F2FD)) // Light blue background
-            .windowInsetsPadding(WindowInsets.navigationBars)
     ) {
         // Chat History
         LazyColumn(
@@ -83,13 +82,15 @@ fun ChatScreen(
         Surface(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(144.dp), // Doubled height from 72dp to 144dp
+                .background(Color.White)
+                .windowInsetsPadding(WindowInsets.navigationBars), // Move this here
             color = Color.White,
             shadowElevation = 8.dp
         ) {
             Row(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .height(144.dp)  // Move fixed height here
+                    .fillMaxWidth()
                     .padding(horizontal = 12.dp, vertical = 8.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
