@@ -68,7 +68,7 @@ fun ChatScreen(viewModel: ChatViewModel) {
         Surface(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(72.dp), // Reduced height
+                .height(144.dp), // Doubled height from 72dp to 144dp
             color = Color.White,
             shadowElevation = 8.dp
         ) {
@@ -79,13 +79,13 @@ fun ChatScreen(viewModel: ChatViewModel) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                // Input TextField
+                // Input TextField with doubled height
                 OutlinedTextField(
                     value = userInput,
                     onValueChange = { userInput = it },
                     modifier = Modifier
                         .weight(1f)
-                        .height(44.dp), // Reduced height
+                        .height(128.dp), // Doubled height from 44dp to 128dp
                     placeholder = { Text("Type your message...") },
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = Color.Transparent,
@@ -102,51 +102,58 @@ fun ChatScreen(viewModel: ChatViewModel) {
                                 userInput = ""
                             }
                         }
-                    ),
-                    singleLine = true
+                    )
                 )
 
-                // Clear Button
-                Button(
-                    onClick = { userInput = "" },
-                    modifier = Modifier
-                        .height(44.dp) // Match TextField height
-                        .width(72.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFFE3F2FD)
-                    ),
-                    shape = RoundedCornerShape(22.dp),
-                    contentPadding = PaddingValues(0.dp)
+                // Column for Send and Clear buttons
+                Column(
+                    modifier = Modifier.height(128.dp),
+                    verticalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(
-                        "Clear",
-                        color = Color(0xFF2196F3),
-                        fontSize = 14.sp
-                    )
-                }
+                    // Send Button
+                    Button(
+                        onClick = {
+                            if (userInput.isNotBlank()) {
+                                viewModel.addUserMessage(userInput)
+                                userInput = ""
+                            }
+                        },
+                        modifier = Modifier
+                            .height(60.dp)
+                            .width(72.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFFD0E1FF) // Light blue #d0e1ff
+                        ),
+                        shape = RoundedCornerShape(22.dp),
+                        contentPadding = PaddingValues(0.dp)
+                    ) {
+                        Text(
+                            "Send",
+                            color = Color(0xFF1A1A7A), // Dark blue #1a1a7a
+                            fontSize = 14.sp,
+                            fontFamily = androidx.compose.ui.text.font.FontFamily.SansSerif
+                        )
+                    }
 
-                // Send Button
-                Button(
-                    onClick = {
-                        if (userInput.isNotBlank()) {
-                            viewModel.addUserMessage(userInput)
-                            userInput = ""
-                        }
-                    },
-                    modifier = Modifier
-                        .height(44.dp) // Match TextField height
-                        .width(72.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF2196F3)
-                    ),
-                    shape = RoundedCornerShape(22.dp),
-                    contentPadding = PaddingValues(0.dp)
-                ) {
-                    Text(
-                        "Send",
-                        color = Color.White,
-                        fontSize = 14.sp
-                    )
+                    // Clear Button
+                    Button(
+                        onClick = { userInput = "" },
+                        modifier = Modifier
+                            .height(60.dp)
+                            .width(72.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFFD0E1FF) // Light blue #d0e1ff
+                        ),
+                        shape = RoundedCornerShape(22.dp),
+                        contentPadding = PaddingValues(0.dp)
+                    ) {
+                        Text(
+                            "Clear",
+                            color = Color(0xFF1A1A7A), // Dark blue #1a1a7a
+                            fontSize = 14.sp,
+                            fontFamily = androidx.compose.ui.text.font.FontFamily.SansSerif
+                        )
+                    }
                 }
             }
         }
