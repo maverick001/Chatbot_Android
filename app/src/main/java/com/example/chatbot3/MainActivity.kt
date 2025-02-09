@@ -52,55 +52,102 @@ fun ChatScreen(viewModel: ChatViewModel) {
             .fillMaxSize()
             .background(Color(0xFFE3F2FD)) // Light blue background
     ) {
-        // Chat History (reduced height)
+        // Chat History
         LazyColumn(
             modifier = Modifier
                 .weight(1f)
+                .fillMaxWidth()
                 .padding(8.dp)
         ) {
-            items(chatMessages) { message ->
+            items(chatMessages, key = { it.text + it.isUser }) { message ->
                 ChatBubble(message = message)
             }
         }
 
-        // Input Area (increased height)
-        Row(
+        // Input Area with white background
+        Surface(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(2f)
-                .padding(8.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .height(72.dp), // Reduced height
+            color = Color.White,
+            shadowElevation = 8.dp
         ) {
-            TextField(
-                value = userInput,
-                onValueChange = { userInput = it },
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
-                keyboardActions = KeyboardActions(
-                    onSend = {
-                        viewModel.addUserMessage(userInput)
-                        userInput = ""
-                    }
-                ),
-                modifier = Modifier.weight(1f),
-                placeholder = { Text("Type your message...", color = Color.Black.copy(alpha = 0.6f)) },
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White,
-                    focusedTextColor = Color.Black,
-                    unfocusedTextColor = Color.Black
-                )
-            )
-            
-            Spacer(modifier = Modifier.width(8.dp))
-            
-            Button(
-                onClick = {
-                    viewModel.addUserMessage(userInput)
-                    // Call API here (we'll implement this next)
-                    userInput = ""
-                }
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 12.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text("Send", color = Color.White)
+                // Input TextField
+                OutlinedTextField(
+                    value = userInput,
+                    onValueChange = { userInput = it },
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(44.dp), // Reduced height
+                    placeholder = { Text("Type your message...") },
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = Color.Transparent,
+                        unfocusedBorderColor = Color.Transparent,
+                        focusedContainerColor = Color(0xFFF5F5F5),
+                        unfocusedContainerColor = Color(0xFFF5F5F5)
+                    ),
+                    shape = RoundedCornerShape(22.dp),
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
+                    keyboardActions = KeyboardActions(
+                        onSend = {
+                            if (userInput.isNotBlank()) {
+                                viewModel.addUserMessage(userInput)
+                                userInput = ""
+                            }
+                        }
+                    ),
+                    singleLine = true
+                )
+
+                // Clear Button
+                Button(
+                    onClick = { userInput = "" },
+                    modifier = Modifier
+                        .height(44.dp) // Match TextField height
+                        .width(72.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFFE3F2FD)
+                    ),
+                    shape = RoundedCornerShape(22.dp),
+                    contentPadding = PaddingValues(0.dp)
+                ) {
+                    Text(
+                        "Clear",
+                        color = Color(0xFF2196F3),
+                        fontSize = 14.sp
+                    )
+                }
+
+                // Send Button
+                Button(
+                    onClick = {
+                        if (userInput.isNotBlank()) {
+                            viewModel.addUserMessage(userInput)
+                            userInput = ""
+                        }
+                    },
+                    modifier = Modifier
+                        .height(44.dp) // Match TextField height
+                        .width(72.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF2196F3)
+                    ),
+                    shape = RoundedCornerShape(22.dp),
+                    contentPadding = PaddingValues(0.dp)
+                ) {
+                    Text(
+                        "Send",
+                        color = Color.White,
+                        fontSize = 14.sp
+                    )
+                }
             }
         }
     }
@@ -108,6 +155,7 @@ fun ChatScreen(viewModel: ChatViewModel) {
 
 @Composable
 fun ChatBubble(message: ChatMessage) {
+    val backgroundColor = if (message.isUser) Color(0xFFBBDEFB) else Color.White
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -117,7 +165,7 @@ fun ChatBubble(message: ChatMessage) {
         Card(
             shape = RoundedCornerShape(16.dp),
             colors = CardDefaults.cardColors(
-                containerColor = if (message.isUser) Color(0xFF2196F3) else Color.White
+                containerColor = backgroundColor
             )
         ) {
             Text(
