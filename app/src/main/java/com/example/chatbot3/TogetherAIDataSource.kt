@@ -62,7 +62,7 @@ class TogetherAIDataSource {
         val response = api.generateResponse(
             apiKey = "Bearer ${BuildConfig.TOGETHER_AI_API_KEY}",
             request = TogetherAIRequest(
-                model = "meta-llama/Llama-3-8b-chat-hf",
+                model = "meta-llama/Meta-Llama-3-8B-Instruct-Lite",
                 prompt = prompt,
                 stream_tokens = false
             )
