@@ -93,7 +93,9 @@ fun ChatScreen(viewModel: ChatViewModel) {
                         focusedBorderColor = Color.Transparent,
                         unfocusedBorderColor = Color.Transparent,
                         focusedContainerColor = Color(0xFFF5F5F5),
-                        unfocusedContainerColor = Color(0xFFF5F5F5)
+                        unfocusedContainerColor = Color(0xFFF5F5F5),
+                        focusedTextColor = Color.Black,
+                        unfocusedTextColor = Color.Black
                     ),
                     shape = RoundedCornerShape(22.dp),
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
@@ -139,7 +141,10 @@ fun ChatScreen(viewModel: ChatViewModel) {
 
                     // Clear Button
                     Button(
-                        onClick = { userInput = "" },
+                        onClick = { 
+                            userInput = ""  // Clear input field
+                            viewModel.clearAllMessages()  // Clear all chat messages
+                        },
                         modifier = Modifier
                             .height(57.dp)
                             .width(82.dp),

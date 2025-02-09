@@ -81,6 +81,10 @@ class ChatViewModel(private val api: TogetherAIDataSource) : ViewModel() {
             }
         }
     }
+
+    fun clearAllMessages() {
+        _chatMessages.value = emptyList()
+    }
 }
 
 data class ChatMessage(
