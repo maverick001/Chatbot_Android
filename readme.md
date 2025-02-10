@@ -3,8 +3,8 @@
 A proof-of-concept Android app that uses tuned "llama3.1-8B-instruct-Lite" model for multi-turn streaming conversation via cloud api server. APK file attached (verified on Galaxy S23/API Level 14)
 
 <p align="left">
-  <img src="./screenshot.jpg" alt="App Screenshot" width="49%" />
-  <img src="./screenshot1.jpg" alt="App Screenshot 2" width="49%" />
+  <img src="./screenshot.jpg" alt="App Screenshot" width="30%" />
+  <img src="./screenshot1.jpg" alt="App Screenshot 2" width="30%" />
 </p>
 
 ## Features
