@@ -4,7 +4,7 @@ A proof-of-concept Android app that uses tuned "llama3.1-8B-instruct-Lite" model
 
 <p align="left">
 <img src="./screenshot.jpg" alt="App Screenshot" width="30%" />
-<img src="./screenshot1.jpg" alt="App Screenshot 2" width="30%" style="padding-left: 20px" />
+<img src="./screenshot1.jpg" alt="App Screenshot 2" width="30%" style="margin-left: 20px" />
 </p>
 
 ## Features
