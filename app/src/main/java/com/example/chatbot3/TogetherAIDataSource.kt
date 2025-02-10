@@ -41,7 +41,7 @@ data class TogetherAIRequest(
     val model: String,
     val prompt: String,
     val stream_tokens: Boolean = false,
-    val max_tokens: Int = 100
+    val max_tokens: Int = 80
 )
 
 data class Choice(
@@ -86,8 +86,8 @@ class TogetherAIDataSource {
 
     fun streamResponse(prompt: String): Flow<String> = flow {
         // Add system prompt to user's prompt
-        val systemPrompt = """You are a helpful AI assistant. Keep your responses clear and concise, always within 150 tokens. 
-            |Avoid repetition and unnecessary details. Focus on providing direct, informative answers.
+        val systemPrompt = """You are a helpful AI assistant. Keep your responses clear and concise, always within 80 tokens, always reply with the same language as what the user uses. 
+            |Avoid repetition and unnecessary details. Focus on providing direct, informative answers. 
             |
             |User: """.trimMargin()
         
@@ -98,7 +98,7 @@ class TogetherAIDataSource {
             request = TogetherAIRequest(
                 model = "meta-llama/Meta-Llama-3-8B-Instruct-Lite",
                 prompt = fullPrompt,
-                max_tokens = 150  // Keep this as a hard limit
+                max_tokens = 80  // Keep this as a hard limit
             )
         )
         

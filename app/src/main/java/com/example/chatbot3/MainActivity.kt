@@ -201,7 +201,7 @@ fun ChatBubble(message: ChatMessage) {
             Text(
                 text = message.text,
                 modifier = Modifier.padding(16.dp),
-                fontSize = 18.sp,
+                fontSize = 16.sp,
                 fontWeight = FontWeight.Normal,
                 color = Color.Black
             )
